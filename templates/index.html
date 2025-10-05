@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Helmet & Vest Detection - Login</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: #f0f4ff;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    width: 900px;
+    height: 600px;
+    display: flex;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  /* Left panel - greeting */
+  .left-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+
+  .left-panel h1 {
+    font-size: 3.5rem;
+    margin: 0;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .left-panel p {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    max-width: 320px;
+    line-height: 1.5;
+  }
+
+  /* Right panel - login/signup or welcome/upload */
+  .right-panel {
+    flex: 1;
+    background: white;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  /* Forms and messages */
+  input[type="email"],
+  input[type="password"],
+  input[type="file"] {
+    width: 100%;
+    padding: 15px 18px;
+    margin: 12px 0 20px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
+
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="file"]:focus {
+    border-color: #2575fc;
+    outline: none;
+  }
+
+  button {
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    background: #2575fc;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+
+  button:hover {
+    background: #195ecb;
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 15px;
+  }
+
+  .btn-group button {
+    flex: 1;
+    background: #6a11cb;
+  }
+
+  .btn-group button:hover {
+    background: #4e0eb8;
+  }
+
+  /* Welcome message */
+  #welcome-message {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #2575fc;
+  }
+
+  /* Sign out */
+  #signOutBtn {
+    background: #e74c3c;
+  }
+
+  #signOutBtn:hover {
+    background: #c0392b;
+  }
+
+  /* Upload area */
+  .upload-area {
+    border: 2px dashed #2575fc;
+    border-radius: 10px;
+    padding: 25px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    text-align: center;
+    position: relative;
+    transition: background-color 0.3s;
+  }
+
+  .upload-area.dragover {
+    background-color: #e7f0ff;
+  }
+
+  .preview-img {
+    max-width: 100%;
+    max-height: 180px;
+    display: none;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgba(37,117,252,0.3);
+  }
+
+  #uploadText {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  /* Error and success messages */
+  #error-message, #success-message {
+    min-height: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  #error-message {
+    color: #e74c3c;
+  }
+  #success-message {
+    color: #2ecc71;
+  }
+
+  /* Extra text below form */
+  #signup-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
+  }
+
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Left greeting panel -->
+    <div class="left-panel">
+      <h1>Helmet & Vest</h1>
+      <h2>Welcome<br>Back!</h2>
+      <p>Secure your workplace by logging in to detect helmets and vests effectively.</p>
+    </div>
+
+    <!-- Right login/upload panel -->
+    <div class="right-panel">
+      <div id="error-message"></div>
+      <div id="success-message"></div>
+
+      <!-- Authentication Section -->
+      <div id="auth-section">
+        <input type="email" id="email" placeholder="Email" autocomplete="username" />
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+        <div class="btn-group">
+          <button id="signUpBtn">Sign Up</button>
+          <button id="signInBtn">Sign In</button>
+        </div>
+        <div id="signup-info">Sign up if you don't have an account yet and join us in ensuring safety first.</div>
+      </div>
+
+      <!-- Welcome + Sign Out Section -->
+      <div id="welcome-section" style="display:none;">
+        <div id="welcome-message"></div>
+        <button id="signOutBtn">Sign Out</button>
+
+        <!-- Upload Form -->
+        <form method="POST" action="/predict" enctype="multipart/form-data" id="upload-form" style="margin-top: 30px;">
+          <label for="fileInput" style="font-weight: 600; display: block; margin-bottom: 10px; color: #555;">
+            Choose an image to upload
+          </label>
+          <div class="upload-area" id="uploadArea">
+            <img id="previewImg" class="preview-img" src="#" alt="Image Preview" />
+            <span id="uploadText">Drag & drop or click to select an image</span>
+            <input type="file" name="file" id="fileInput" accept="image/*" required style="opacity: 0; position: absolute; left: 0; top: 0; width: 100%; height: 100%; cursor: pointer;" />
+          </div>
+          <button type="submit">Detect</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCsT6xFOQV1ZboqCLsNpdjoqDRMo3jRjjU",
+      authDomain: "hackton-266e6.firebaseapp.com",
+      projectId: "hackton-266e6",
+      storageBucket: "hackton-266e6.firebasestorage.app",
+      messagingSenderId: "926815736773",
+      appId: "1:926815736773:web:b3602d7c05622dcd3231ac",
+      measurementId: "G-1DRE51QSRT"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const signInBtn = document.getElementById('signInBtn');
+    const signOutBtn = document.getElementById('signOutBtn');
+    const authSection = document.getElementById('auth-section');
+    const welcomeSection = document.getElementById('welcome-section');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const uploadForm = document.getElementById('upload-form');
+    const errorMessage = document.getElementById('error-message');
+    const successMessage = document.getElementById('success-message');
+
+    // Clear messages
+    function clearMessages() {
+      errorMessage.textContent = '';
+      successMessage.textContent = '';
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      successMessage.textContent = '';
+    }
+
+    function setSuccess(msg) {
+      successMessage.textContent = msg;
+      errorMessage.textContent = '';
+    }
+
+    function validate(email, password) {
+      if (!email) {
+        showError('Please enter your email.');
+        return false;
+      }
+      if (!password) {
+        showError('Please enter your password.');
+        return false;
+      }
+      clearMessages();
+      return true;
+    }
+
+    // Sign Up
+    signUpBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      if (!validate(email, password)) return;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          setSuccess('Sign Up Successful! You can now sign in.');
+          emailInput.value = '';
+          passwordInput.value = '';
+        })
+        .catch(error => {
+          switch (error.code) {
+            case 'auth/email-already-in-use':
+              showError('Email is already in use. Try signing in.');
+              break;
+            case 'auth/invalid-email':
+              showError('Invalid email format.');
+              break;
+            case 'auth/weak-password':
+              showError('Password should be at least 6 characters.');
+              break;
+            default:
+              showError(error.message);
+          }
+        });
+    });
+
+    // Sign In
+    signInBtn.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+      if (!validate(email, password)) return;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          clearMessages();
+          emailInput.value = '';
+          passwordInput.value = '';
+        })
+        .catch(error => {
+          switch (error.code) {
+            case 'auth/user-not-found':
+              showError('User not found. Please sign up first.');
+              break;
+            case 'auth/wrong-password':
+              showError('Incorrect password.');
+              break;
+            case 'auth/invalid-email':
+              showError('Invalid email format.');
+              break;
+            default:
+              showError(error.message);
+          }
+        });
+    });
+
+    // Sign Out
+    signOutBtn.addEventListener('click', () => {
+      signOut(auth);
+    });
+
+    // Auth state listener
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        welcomeMessage.textContent = `Welcome, ${user.email}`;
+        authSection.style.display = 'none';
+        welcomeSection.style.display = 'block';
+        clearMessages();
+      } else {
+        authSection.style.display = 'block';
+        welcomeSection.style.display = 'none';
+        clearMessages();
+      }
+    });
+
+    // Image upload preview
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const previewImg = document.getElementById('previewImg');
+    const uploadText = document.getElementById('uploadText');
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
+        uploadText.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Drag & drop
+    uploadArea.addEventListener('dragover', e => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+    uploadArea.addEventListener('dragleave', e => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+    });
+    uploadArea.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        fileInput.dispatchEvent(new Event('change'));
+      }
+    });
+  </script>
+</body>
+</html>
