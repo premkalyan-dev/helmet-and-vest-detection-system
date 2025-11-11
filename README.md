@@ -37,13 +37,26 @@ README.md # This README file
 - PyTorch / TensorFlow (depending on YOLO implementation)  
 - Firebase project for authentication
 
-### Installation
+## 📁 Project Structure
 
-1. Clone the repository:
+helmet-and-vest-detection-system/
+├── api/ # Backend (FastAPI)
+│ ├── app.py # API endpoint for helmet/vest detection
+│ ├── requirements.txt
+│ ├── Dockerfile # (Optional) for cloud deployment
+│ └── weights/
+│ └── best.pt # Model weights (Git LFS)
+│
+└── web/ # Frontend (Static Website)
+├── index.html
+├── app.js
+└── styles.css
 
-```bash
-git clone https://github.com/yourusername/helmet-and-vest-detection-system.git
-cd helmet-and-vest-detection-system
+Install Backend Dependencies
+
+cd api
+pip install -r requirements.txt
+
 
 
 
