@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / unnecessary files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment (if used)
+venv/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE/editor specific
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+*.log
+*.swp
+*.tmp
+*.bak
+*.orig
+
+# Flask / general
+instance/
+*.sqlite3
+*.db
+
+# Uploaded files and run-time data
+static/uploads/
+*.log
+*.pid
+
+# YOLO / model weights (if you don’t want to commit large model files)
+*.pt
+*.pth
+*.h5
+model/
+model/**
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Secrets and credentials
+.env
+*.env
+
+# Notebook checkpoints (if you ever include Jupyter)
+.ipynb_checkpoints/
+
+# Logs and coverage
+coverage.xml
+htmlcov/
+*.cover
+*.coverage
