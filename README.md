@@ -73,21 +73,9 @@ cd api
 pip install -r requirements.txt
 ```
 
-### 🚀 3) Run the Backend Server
-```bash
-uvicorn app:app --host 0.0.0.0 --port 7860
-```
 
-Backend API runs at:
-```
-http://localhost:7860/predict-image
-```
 
-### 💻 4) Open the Frontend UI
-Open this file directly in your browser:
-```
-web/index.html
-```
+
 
 Upload an image → click **Detect** → view results instantly.
 
