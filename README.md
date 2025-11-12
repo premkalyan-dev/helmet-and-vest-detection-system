@@ -68,9 +68,9 @@ Upload an image → click **Detect** → Result will appear below.
    ```
 4. Deploy and copy the backend URL
 
-### Deploy Frontend (Netlify)
+### Deploy Frontend 
 
-1. Go to https://app.netlify.com/start
+1. Go to [https://app.netlify.com/start](https://huggingface.co/spaces/chpremkalyan/helmet_vest_detection)
 2. Select this repository
 3. Set:
    - Build Command: _none_
@@ -79,4 +79,4 @@ Upload an image → click **Detect** → Result will appear below.
 5. Update API URL in `web/app.js`
 
 ## 👨‍💻 Author
-**Prem Kalyan**
+**Prem Kalyan****Nikita mulakala****Aman****Swathi**
