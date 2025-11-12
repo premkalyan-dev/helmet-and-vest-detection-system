@@ -105,7 +105,7 @@ Upload an image → click **Detect** → view results instantly.
 4. Deploy and copy your backend URL.
 
 ### 🖥️ Deploy Frontend (Netlify)
-1. Go to [Netlify Deployment](https://app.netlify.com/start).  
+1. Go to [Click here for live Project](https://huggingface.co/spaces/chpremkalyan/helmet_vest_detection).  
 2. Connect your GitHub repository.  
 3. Set:
    - **Build Command:** none  
